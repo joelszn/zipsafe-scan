@@ -25,15 +25,19 @@ const ZipSearchForm = ({ initialZip = "", ctaLabel = "Check my ZIP" }: ZipSearch
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex w-full max-w-md items-start gap-2">
+    <form onSubmit={handleSubmit} noValidate className="flex w-full max-w-md items-start gap-2">
       <div className="flex-1">
         <Input
+          type="text"
           inputMode="numeric"
-          pattern="^\\d{5}$"
+          autoComplete="postal-code"
+          pattern="^[0-9]{5}$"
+          maxLength={5}
           placeholder="Enter ZIP code"
           aria-label="ZIP code"
+          aria-invalid={!!error}
           value={zip}
-          onChange={(e) => setZip(e.target.value)}
+          onChange={(e) => setZip(e.target.value.replace(/\D/g, '').slice(0,5))}
         />
         {error && <p className="mt-2 text-sm text-destructive">{error}</p>}
       </div>
