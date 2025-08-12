@@ -6,7 +6,7 @@ import PrepLinks from "@/components/ui/PrepLinks";
 import { Helmet } from "react-helmet-async";
 
 const Index = () => {
-  const title = "See your local climate risk and live alerts | MyRiskMap";
+  const title = "See your local climate risk and live alerts | RiskByZip";
   const desc = "Enter your ZIP code to get instant hazard information, flood insurance likelihood, and safety steps.";
   return (
     <>
