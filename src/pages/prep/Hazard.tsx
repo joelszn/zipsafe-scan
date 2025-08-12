@@ -69,12 +69,12 @@ export const CONTENT: Record<string, { title: string; body: string; links: { hre
 export const IMAGES: Record<string, { src: string; alt: string }> = {
   flood: { src: "/images/hazards/flood.jpg", alt: "Flood waters in a neighborhood street" },
   earthquake: { src: "/images/hazards/earthquake.jpg", alt: "Earthquake damage to buildings" },
-  heat: { src: "/images/hazards/heat.jpg", alt: "Thermometer in sand under blue sky" },
+  heat: { src: "/images/hazards/heat-thermometer.jpg", alt: "Thermometer in sand under blue sky" },
   wind: { src: "/images/hazards/wind.jpg", alt: "Strong winds damaging trees and structures" },
   winter: { src: "/images/hazards/winter.jpg", alt: "Heavy snow during winter storm" },
   air: { src: "/images/hazards/air.jpg", alt: "City skyline with smog and poor air quality" },
-  hurricane: { src: "/images/hazards/hurricane.jpg", alt: "Typhoon cyclone over the ocean" },
-  wildfire: { src: "/images/hazards/wildfire.jpg", alt: "Large wildfire burning in mountain landscape" },
+  hurricane: { src: "/images/hazards/hurricane-typhoon.jpg", alt: "Typhoon cyclone over the ocean" },
+  wildfire: { src: "/images/hazards/wildfire-mountain.jpg", alt: "Large wildfire burning in mountain landscape" },
 };
 
 const HazardPrepPage = () => {
