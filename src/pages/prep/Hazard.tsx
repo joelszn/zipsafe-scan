@@ -4,7 +4,7 @@ import Header from "@/components/ui/Header";
 import Footer from "@/components/ui/Footer";
 import { Helmet } from "react-helmet-async";
 
-const CONTENT: Record<string, { title: string; body: string; links: { href: string; label: string }[] }> = {
+export const CONTENT: Record<string, { title: string; body: string; links: { href: string; label: string }[] }> = {
   flood: {
     title: "Flood preparedness",
     body: "Floods can develop slowly or rapidly. Know your local risk, sign up for alerts, and prepare your home. Elevate utilities, keep important documents in waterproof containers, and have supplies ready. During a flood warning, avoid walking or driving through flood waters—turn around, don’t drown. After flooding, avoid contact with flood water, which may be contaminated. Document damage for insurance and contact local officials for guidance. Learn evacuation routes ahead of time and plan where to meet family members if separated. Consider purchasing flood insurance—it typically has a 30-day waiting period before coverage begins. Maintain gutters and drains to reduce localized flooding and keep an emergency kit with food, water, medications, and flashlights.",
@@ -66,10 +66,22 @@ const CONTENT: Record<string, { title: string; body: string; links: { href: stri
   },
 };
 
+export const IMAGES: Record<string, { src: string; alt: string }> = {
+  flood: { src: "https://source.unsplash.com/1600x900/?flood,river,storm", alt: "Flood waters in a neighborhood street" },
+  earthquake: { src: "https://source.unsplash.com/1600x900/?earthquake,damage,buildings", alt: "Earthquake damage to buildings" },
+  heat: { src: "https://source.unsplash.com/1600x900/?heatwave,summer,city", alt: "City during extreme heat wave" },
+  wind: { src: "https://source.unsplash.com/1600x900/?wind,storm,trees", alt: "Strong winds bending trees" },
+  winter: { src: "https://source.unsplash.com/1600x900/?winter,snowstorm,blizzard", alt: "Heavy snow during winter storm" },
+  air: { src: "https://source.unsplash.com/1600x900/?air+quality,smog,smoke", alt: "City skyline with poor air quality" },
+  hurricane: { src: "https://source.unsplash.com/1600x900/?hurricane,storm,coast", alt: "Hurricane clouds approaching coast" },
+  wildfire: { src: "https://source.unsplash.com/1600x900/?wildfire,forest,smoke", alt: "Wildfire flames and smoke" },
+};
+
 const HazardPrepPage = () => {
   const { hazard = '' } = useParams();
   const key = hazard.toLowerCase();
   const data = CONTENT[key];
+  const img = IMAGES[key as keyof typeof IMAGES];
 
   const title = data ? `${data.title} | RiskByZip` : `Preparedness | RiskByZip`;
   const desc = data ? `Practical preparation tips for ${hazard} hazards.` : 'Preparedness guidance.';
@@ -85,6 +97,11 @@ const HazardPrepPage = () => {
       <main>
         <Container className="py-8 space-y-4">
           <h1 className="text-3xl font-semibold">{data?.title || 'Preparedness'}</h1>
+          {img && (
+            <figure className="overflow-hidden rounded-md border">
+              <img src={img.src} alt={img.alt} loading="lazy" className="w-full h-56 sm:h-64 md:h-72 object-cover" />
+            </figure>
+          )}
           <p className="text-muted-foreground max-w-3xl leading-relaxed">{data?.body || 'Learn how to prepare for local hazards and stay safe during emergencies.'}</p>
           {data && (
             <ul className="list-disc pl-6 space-y-1">

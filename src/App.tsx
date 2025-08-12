@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import ZipResultsPage from "./pages/Zip";
 import HazardPrepPage from "./pages/prep/Hazard";
+import AllHazardsPage from "./pages/prep/All";
 import MethodologyPage from "./pages/Methodology";
 import { HelmetProvider } from "react-helmet-async";
 
@@ -22,6 +23,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/zip/:zip" element={<ZipResultsPage />} />
+            <Route path="/prep" element={<AllHazardsPage />} />
             <Route path="/prep/:hazard" element={<HazardPrepPage />} />
             <Route path="/methodology" element={<MethodologyPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
