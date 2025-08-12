@@ -4,8 +4,8 @@ import Footer from "@/components/ui/Footer";
 import { Helmet } from "react-helmet-async";
 
 const MethodologyPage = () => {
-  const title = "Methodology | MyRiskMap";
-  const desc = "Data sources, caching, and flood zone simplifications used by MyRiskMap.";
+  const title = "Methodology | RiskByZip";
+  const desc = "Data sources, caching, and flood zone simplifications used by RiskByZip.";
   return (
     <>
       <Helmet>
@@ -28,7 +28,7 @@ const MethodologyPage = () => {
           <section className="space-y-2">
             <h2 className="text-xl font-semibold">NFHL simplifications</h2>
             <p>Flood insurance likelihood labels are inferred: presence in SFHA (A/AE/AH/AO/A99/AR/V/VE) → High; intersecting NFHL but not SFHA → Moderate; otherwise Low. This is informational only and not a legal determination.</p>
-            <p className="text-sm text-muted-foreground">Disclaimer: MyRiskMap is informational only and not a substitute for official guidance. Confirm details with local officials, lenders, or insurers.</p>
+            <p className="text-sm text-muted-foreground">Disclaimer: RiskByZip is informational only and not a substitute for official guidance. Confirm details with local officials, lenders, or insurers.</p>
           </section>
         </Container>
       </main>

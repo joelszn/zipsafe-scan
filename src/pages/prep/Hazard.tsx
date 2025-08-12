@@ -71,7 +71,7 @@ const HazardPrepPage = () => {
   const key = hazard.toLowerCase();
   const data = CONTENT[key];
 
-  const title = data ? `${data.title} | MyRiskMap` : `Preparedness | MyRiskMap`;
+  const title = data ? `${data.title} | RiskByZip` : `Preparedness | RiskByZip`;
   const desc = data ? `Practical preparation tips for ${hazard} hazards.` : 'Preparedness guidance.';
 
   return (

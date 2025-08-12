@@ -14,9 +14,6 @@ const Header = () => {
         <nav className="flex items-center gap-3">
           <Link to="/methodology" className="text-sm hover:underline">Methodology</Link>
           <Link to="/prep/flood" className="text-sm hover:underline">Preparation</Link>
-          <Button asChild variant="secondary" size="sm">
-            <a href="https://www.noaa.gov/" target="_blank" rel="noreferrer">Sources</a>
-          </Button>
         </nav>
       </Container>
     </header>

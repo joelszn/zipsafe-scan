@@ -164,7 +164,7 @@ const ZipResultsPage = () => {
     return () => controller.abort();
   }, [coords, zip]);
 
-  const pageTitle = useMemo(()=> valid ? `Climate Risk & Alerts for ZIP ${zip} | MyRiskMap` : 'Invalid ZIP | MyRiskMap', [valid, zip]);
+  const pageTitle = useMemo(()=> valid ? `Climate Risk & Alerts for ZIP ${zip} | RiskByZip` : 'Invalid ZIP | RiskByZip', [valid, zip]);
   const pageDesc = useMemo(()=> valid ? `Live weather alerts, earthquake data, and long-term climate risk for ZIP code ${zip}. Plus flood insurance likelihood assessment.` : 'Invalid ZIP provided.' , [valid, zip]);
 
   if (!valid) {
@@ -251,7 +251,7 @@ const ZipResultsPage = () => {
           </section>
 
           <section className="flex items-center gap-3">
-            <ShareButton title={`MyRiskMap for ZIP ${zip}`} text={coords ? `${coords.city || ''} ${coords.state || ''}`.trim() : undefined} />
+            <ShareButton title={`RiskByZip for ZIP ${zip}`} text={coords ? `${coords.city || ''} ${coords.state || ''}`.trim() : undefined} />
             <ZipSearchForm initialZip={zip} ctaLabel="Check another ZIP" />
           </section>
         </Container>

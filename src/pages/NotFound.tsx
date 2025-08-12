@@ -8,7 +8,7 @@ const NotFound = () => {
   return (
     <>
       <Helmet>
-        <title>Page not found | MyRiskMap</title>
+        <title>Page not found | RiskByZip</title>
         <meta name="description" content="The page you requested could not be found." />
         <link rel="canonical" href={typeof window!=="undefined"? window.location.href: ''} />
       </Helmet>
