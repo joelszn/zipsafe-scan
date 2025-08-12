@@ -67,14 +67,14 @@ export const CONTENT: Record<string, { title: string; body: string; links: { hre
 };
 
 export const IMAGES: Record<string, { src: string; alt: string }> = {
-  flood: { src: "https://source.unsplash.com/1600x900/?flood,river,storm", alt: "Flood waters in a neighborhood street" },
-  earthquake: { src: "https://source.unsplash.com/1600x900/?earthquake,damage,buildings", alt: "Earthquake damage to buildings" },
-  heat: { src: "https://source.unsplash.com/1600x900/?heatwave,summer,city", alt: "City during extreme heat wave" },
-  wind: { src: "https://source.unsplash.com/1600x900/?wind,storm,trees", alt: "Strong winds bending trees" },
-  winter: { src: "https://source.unsplash.com/1600x900/?winter,snowstorm,blizzard", alt: "Heavy snow during winter storm" },
-  air: { src: "https://source.unsplash.com/1600x900/?air+quality,smog,smoke", alt: "City skyline with poor air quality" },
-  hurricane: { src: "https://source.unsplash.com/1600x900/?hurricane,storm,coast", alt: "Hurricane clouds approaching coast" },
-  wildfire: { src: "https://source.unsplash.com/1600x900/?wildfire,forest,smoke", alt: "Wildfire flames and smoke" },
+  flood: { src: "/images/hazards/flood.jpg", alt: "Flood waters in a neighborhood street" },
+  earthquake: { src: "/images/hazards/earthquake.jpg", alt: "Earthquake damage to buildings" },
+  heat: { src: "/images/hazards/heat.jpg", alt: "Staying hydrated during extreme heat" },
+  wind: { src: "/images/hazards/wind.jpg", alt: "Strong winds damaging trees and structures" },
+  winter: { src: "/images/hazards/winter.jpg", alt: "Heavy snow during winter storm" },
+  air: { src: "/images/hazards/air.jpg", alt: "City skyline with smog and poor air quality" },
+  hurricane: { src: "/images/hazards/hurricane.jpg", alt: "Historic hurricane weather analysis map" },
+  wildfire: { src: "/images/hazards/wildfire.jpg", alt: "Wildfire satellite view over California" },
 };
 
 const HazardPrepPage = () => {
