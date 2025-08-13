@@ -13,7 +13,7 @@ const titleCase = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 const RiskBar = ({ item }: { item: RiskItem }) => {
   return (
     <Card>
-      <CardHeader className="flex items-center justify-between gap-3 sm:flex-row sm:items-center">
+      <CardHeader className="flex items-center justify-between gap-3 sm:flex-row sm:items-center p-4 pb-2">
         <CardTitle className="text-base">
           <Link to={`/prep/${item.name}`} className="hover:underline">
             {titleCase(item.name)}
