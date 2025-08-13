@@ -33,7 +33,7 @@ const Index = () => {
           </Container>
         </section>
         <section>
-          <Container className="py-10">
+          <Container className="py-6">
             <h2 className="sr-only">Preparation links</h2>
             <PrepLinks />
           </Container>
