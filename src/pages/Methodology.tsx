@@ -20,8 +20,12 @@ const MethodologyPage = () => {
           <section className="space-y-2">
             <h2 className="text-xl font-semibold">Data sources</h2>
             <p>Weather alerts from NOAA National Weather Service (api.weather.gov). Earthquakes from USGS (earthquake.usgs.gov). Flood zones from FEMA National Flood Hazard Layer (ArcGIS REST). ZIP geocoding via Zippopotam.us. Long-term climate hazards from a static JSON bundled with the site.</p>
-          </section>
-          <section className="space-y-2">
+        </section>
+        <section className="space-y-2">
+          <h2 className="text-xl font-semibold">Coverage</h2>
+          <p>RiskByZip currently supports U.S. ZIP codes only. International postal codes are not supported.</p>
+        </section>
+        <section className="space-y-2">
             <h2 className="text-xl font-semibold">Caching strategy</h2>
             <p>Client-side caching via localStorage: alerts and earthquakes for 5 minutes, flood data for 24 hours, and static risk data for 1 year. API requests use AbortController timeouts (10s for alerts/earthquakes, 15s for flood, 8s for ZIP lookup) to maintain responsiveness.</p>
           </section>

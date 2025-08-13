@@ -7,7 +7,7 @@ import { Helmet } from "react-helmet-async";
 
 const Index = () => {
   const title = "See your local climate risk and live alerts | RiskByZip";
-  const desc = "Enter your ZIP code to get instant hazard information, flood insurance likelihood, and safety steps.";
+  const desc = "Enter your U.S. ZIP code to get instant hazard information, flood insurance likelihood, and safety steps.";
   return (
     <>
       <Helmet>
@@ -24,7 +24,7 @@ const Index = () => {
               See your local climate risk and live alerts
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl">
-              Enter your ZIP code to get instant hazard information, flood insurance likelihood, and safety steps.
+              Enter your U.S. ZIP code to get instant hazard information, flood insurance likelihood, and safety steps.
             </p>
             <ZipSearchForm />
             <div className="text-sm text-muted-foreground">
