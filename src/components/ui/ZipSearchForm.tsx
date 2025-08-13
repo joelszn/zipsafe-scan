@@ -37,11 +37,10 @@ const ZipSearchForm = ({ initialZip = "", ctaLabel = "Check my ZIP" }: ZipSearch
           placeholder="Enter U.S. ZIP code"
           aria-label="U.S. ZIP code"
           aria-invalid={!!error}
-          aria-describedby="zip-help"
           value={zip}
           onChange={(e) => setZip(e.target.value.replace(/\D/g, '').slice(0,5))}
         />
-        <p id="zip-help" className="mt-1 text-xs text-muted-foreground">U.S. ZIP codes only</p>
+        
         {error && <p className="mt-2 text-sm text-destructive">{error}</p>}
       </div>
       <Button type="submit" variant="hero" className="px-6">{ctaLabel}</Button>

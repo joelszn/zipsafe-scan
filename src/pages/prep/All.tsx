@@ -38,6 +38,8 @@ const AllHazardsPage = () => {
                       src={img?.src}
                       alt={img?.alt || `${data.title} image`}
                       loading="lazy"
+                      decoding="async"
+                      sizes="(min-width: 640px) 50vw, 100vw"
                       className="w-full h-40 sm:h-44 md:h-48 object-cover"
                     />
                   </figure>

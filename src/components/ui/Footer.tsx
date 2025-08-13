@@ -11,8 +11,8 @@ const Footer = () => {
           <a href="https://msc.fema.gov/nfhl" target="_blank" rel="noreferrer nofollow" className="underline"> FEMA National Flood Hazard Layer</a>,{" "}
           <a href="https://api.zippopotam.us/" target="_blank" rel="noreferrer nofollow" className="underline"> Zippopotam.us</a>.
         </p>
-        <p className="opacity-80">Coverage: U.S. ZIP codes only.</p>
         <p className="opacity-80">Informational only. Not for emergency use. Always follow official guidance.</p>
+        <p className="opacity-80">Coverage: U.S. ZIP codes only.</p>
       </Container>
     </footer>
   );

@@ -92,6 +92,7 @@ const HazardPrepPage = () => {
         <title>{title}</title>
         <meta name="description" content={desc} />
         <link rel="canonical" href={typeof window!=="undefined"? window.location.href: ''} />
+        {img && <link rel="preload" as="image" href={img.src} />}
       </Helmet>
       <Header />
       <main>
@@ -99,7 +100,15 @@ const HazardPrepPage = () => {
           <h1 className="text-3xl font-semibold">{data?.title || 'Preparedness'}</h1>
           {img && (
             <figure className="overflow-hidden rounded-md border">
-              <img src={img.src} alt={img.alt} loading="lazy" className="w-full h-56 sm:h-64 md:h-72 object-cover" />
+              <img
+                src={img.src}
+                alt={img.alt}
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
+                sizes="100vw"
+                className="w-full h-56 sm:h-64 md:h-72 object-cover"
+              />
             </figure>
           )}
           <p className="text-muted-foreground max-w-3xl leading-relaxed">{data?.body || 'Learn how to prepare for local hazards and stay safe during emergencies.'}</p>
