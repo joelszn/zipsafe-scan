@@ -2,7 +2,7 @@ import { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "./input";
 import { Button } from "./button";
-import { isValidZip } from "@/lib/geo";
+import { isValidZip, getCoordsForZip } from "@/lib/geo";
 
 export interface ZipSearchFormProps {
   initialZip?: string;
@@ -12,16 +12,27 @@ export interface ZipSearchFormProps {
 const ZipSearchForm = ({ initialZip = "", ctaLabel = "Check my ZIP" }: ZipSearchFormProps) => {
   const [zip, setZip] = useState(initialZip);
   const [error, setError] = useState<string | null>(null);
+  const [isValidating, setIsValidating] = useState(false);
   const navigate = useNavigate();
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     if (!isValidZip(zip)) {
       setError("Enter a valid 5-digit U.S. ZIP code");
       return;
     }
+    
+    setIsValidating(true);
     setError(null);
-    navigate(`/zip/${zip}`);
+    
+    try {
+      await getCoordsForZip(zip);
+      navigate(`/zip/${zip}`);
+    } catch (error) {
+      setError("ZIP code not found. Please enter a valid U.S. ZIP code that exists.");
+    } finally {
+      setIsValidating(false);
+    }
   }
 
   return (
@@ -43,7 +54,9 @@ const ZipSearchForm = ({ initialZip = "", ctaLabel = "Check my ZIP" }: ZipSearch
         
         {error && <p className="mt-2 text-sm text-destructive">{error}</p>}
       </div>
-      <Button type="submit" variant="hero" className="px-6">{ctaLabel}</Button>
+      <Button type="submit" variant="hero" className="px-6" disabled={isValidating}>
+        {isValidating ? "Validating..." : ctaLabel}
+      </Button>
     </form>
   );
 };
