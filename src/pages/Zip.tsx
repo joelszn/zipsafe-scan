@@ -10,11 +10,9 @@ import FloodLikelihoodBadge from "@/components/ui/FloodLikelihoodBadge";
 import PrepLinks from "@/components/ui/PrepLinks";
 import ShareButton from "@/components/ui/ShareButton";
 import ZipSearchForm from "@/components/ui/ZipSearchForm";
-import { EarthquakeVisualization } from "@/components/ui/EarthquakeVisualization";
 import { getCoordsForZip, isValidZip } from "@/lib/geo";
 import { getFallbackRisks } from "@/lib/fallbackRisks";
 import { getCached, setCached } from "@/lib/cache";
-import { useEarthquakeData } from "@/hooks/useEarthquakeData";
 import { Helmet } from "react-helmet-async";
 
 interface FloodApiResult {
@@ -26,7 +24,7 @@ interface FloodApiResult {
   disclaimer: string;
 }
 
-
+interface QuakeItem { magnitude: number | null; timeISO: string | null; place: string; url: string; }
 
 const ZipResultsPage = () => {
   const { zip = '' } = useParams();
@@ -34,17 +32,18 @@ const ZipResultsPage = () => {
 
   const [coords, setCoords] = useState<{lat:number;lon:number;city?:string;state?:string}|null>(null);
   const [alerts, setAlerts] = useState<AlertData[] | null>(null);
+  const [quakes, setQuakes] = useState<QuakeItem[] | null>(null);
   const [risks, setRisks] = useState<RiskItem[] | null>(null);
   const [flood, setFlood] = useState<FloodApiResult | null>(null);
-  const [timeRange, setTimeRange] = useState('72h');
 
-  const [errors, setErrors] = useState<{alerts?:string;risks?:string;flood?:string;coords?:string}>({});
+  const [errors, setErrors] = useState<{alerts?:string;quakes?:string;risks?:string;flood?:string;coords?:string}>({});
 
   // Clear all state when ZIP changes to prevent cache bleed
   useEffect(() => {
     console.log(`ZIP changed to: ${zip}`);
     setCoords(null);
     setAlerts(null);
+    setQuakes(null);
     setRisks(null);
     setFlood(null);
     setErrors({});
@@ -101,13 +100,35 @@ const ZipResultsPage = () => {
     return () => controller.abort();
   }, [coords, zip]);
 
-  // Use earthquake data hook
-  const { earthquakes, isLoading: earthquakeLoading, error: earthquakeError } = useEarthquakeData({
-    lat: coords?.lat || 0,
-    lon: coords?.lon || 0,
-    zip: coords ? zip || '' : '',
-    timeRange
-  });
+  // Quakes
+  useEffect(() => {
+    if (!coords) return;
+    const cacheKey = `quakes:${zip}`;
+    const cached = getCached<QuakeItem[]>(cacheKey);
+    if (cached) { setQuakes(cached); return; }
+
+    const startTime = new Date(Date.now() - 72*60*60*1000).toISOString();
+    const controller = new AbortController();
+    const timeout = setTimeout(()=>controller.abort(), 10000);
+    fetch(`https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=${coords.lat}&longitude=${coords.lon}&maxradiuskm=100&starttime=${startTime}`, { signal: controller.signal })
+      .then(r => r.ok ? r.json() : Promise.reject('USGS API error'))
+      .then(data => {
+        const qs = (data?.features || [])
+          .map((f:any)=>({
+            magnitude: f?.properties?.mag ?? null,
+            timeISO: f?.properties?.time ? new Date(f.properties.time).toISOString() : null,
+            place: f?.properties?.place || 'Unknown location',
+            url: f?.properties?.url || ''
+          }))
+          .sort((a:any,b:any)=>(b.magnitude||0)-(a.magnitude||0))
+          .slice(0,3);
+        setQuakes(qs);
+        setCached(cacheKey, qs, 300);
+      })
+      .catch(()=> setErrors(prev=>({...prev, quakes: 'Failed to fetch earthquakes'})))
+      .finally(()=> clearTimeout(timeout));
+    return () => controller.abort();
+  }, [coords, zip]);
 
   // Risk (static JSON with robust fallback chain)
   useEffect(() => {
@@ -266,13 +287,24 @@ const ZipResultsPage = () => {
             )}
           </section>
 
-          <EarthquakeVisualization
-            earthquakes={earthquakes}
-            onTimeRangeChange={setTimeRange}
-            isLoading={earthquakeLoading}
-            error={earthquakeError || undefined}
-            timeRange={timeRange}
-          />
+          <section>
+            <h2 className="text-2xl font-semibold mb-1">Recent Earthquakes Nearby</h2>
+            <p className="text-sm text-muted-foreground mb-4">Past 72 hours within 100 km</p>
+            {!quakes && !errors.quakes && <LoadingSkeleton className="h-20 w-full" />}
+            {errors.quakes && <p className="text-sm text-muted-foreground">Failed to load earthquakes</p>}
+            {quakes && quakes.length === 0 && <p className="text-sm">No recent earthquakes nearby</p>}
+            {quakes && quakes.length > 0 && (
+              <ul className="space-y-2">
+                {quakes.map((q,i)=> (
+                  <li key={i} className="text-sm">
+                    <span className="font-medium">M{q.magnitude ?? '—'}</span>
+                    <span className="ml-2">{q.place}</span>
+                    {q.timeISO && <span className="ml-2 text-muted-foreground">{new Date(q.timeISO).toLocaleString()}</span>}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
 
           <section>
             <h2 className="text-2xl font-semibold mb-1">Long-term Climate Risks</h2>
