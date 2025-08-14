@@ -40,6 +40,10 @@ const ZipResultsPage = () => {
   useEffect(() => {
     if (!valid) return;
     let mounted = true;
+    
+    // Auto-scroll to top when ZIP changes
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
     (async () => {
       try {
         const c = await getCoordsForZip(zip);
@@ -197,9 +201,26 @@ const ZipResultsPage = () => {
       </Helmet>
       <Header />
       <main>
+        {/* ZIP Code and Location Header */}
+        <section className="bg-gradient-to-r from-primary/5 to-primary-glow/5 border-b">
+          <Container className="py-6">
+            <div className="text-center">
+              <h1 className="text-4xl font-bold mb-2">ZIP {zip}</h1>
+              {coords && (
+                <p className="text-xl text-muted-foreground">
+                  {coords.city}, {coords.state}
+                </p>
+              )}
+              {!coords && !errors.coords && (
+                <LoadingSkeleton className="h-6 w-48 mx-auto" />
+              )}
+            </div>
+          </Container>
+        </section>
+        
         <Container className="py-8 space-y-10">
           <section>
-            <h1 className="text-2xl font-semibold mb-1">Live Weather Alerts</h1>
+            <h2 className="text-2xl font-semibold mb-1">Live Weather Alerts</h2>
             <p className="text-sm text-muted-foreground mb-4">Official alerts from NOAA NWS</p>
             {!alerts && !errors.alerts && <LoadingSkeleton className="h-24 w-full" />}
             {errors.alerts && <p className="text-sm text-destructive">{errors.alerts}</p>}
