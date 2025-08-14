@@ -119,33 +119,63 @@ const ZipResultsPage = () => {
     return () => controller.abort();
   }, [coords, zip]);
 
-  // Risk (static JSON with fallback)
+  // Risk (static JSON with robust fallback chain)
   useEffect(() => {
+    if (!coords) return; // Wait for coordinates before loading risks
+    
     const cacheKey = `risk:${zip}`;
     const cached = getCached<RiskItem[]>(cacheKey);
-    if (cached) { setRisks(cached); return; }
+    if (cached) { 
+      setRisks(cached); 
+      return; 
+    }
 
+    console.log(`Loading risk data for ZIP ${zip}, state: ${coords.state}`);
+    
     fetch('/data/risk.zip.min.json')
-      .then(r=> r.ok ? r.json(): Promise.reject('Static risk not found'))
+      .then(r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
       .then((json) => {
+        console.log(`Static data loaded for ZIP ${zip}:`, json?.[zip]);
+        
         let list = json?.[zip]?.hazards || [];
+        let dataSource = 'zip-specific';
         
         // If no data for this ZIP, use state-based fallback
-        if (list.length === 0 && coords?.state) {
+        if (list.length === 0) {
+          console.log(`No static data for ZIP ${zip}, using state fallback for ${coords.state}`);
           list = getFallbackRisks(coords.state);
+          dataSource = 'state-based';
         }
         
-        setRisks(list);
+        // Validate data structure
+        if (!Array.isArray(list) || list.length === 0) {
+          console.warn(`Invalid or empty risk data for ZIP ${zip}`);
+          list = getFallbackRisks(coords.state);
+          dataSource = 'state-fallback';
+        }
+        
+        console.log(`Final risk data for ZIP ${zip}:`, list, `(${dataSource})`);
+        setRisks(list.map(item => ({ ...item, dataSource })));
         setCached(cacheKey, list, 31536000);
       })
-      .catch(()=> {
-        // If fetch fails entirely, use fallback based on coords
+      .catch((error) => {
+        console.error(`Failed to load static risk data for ZIP ${zip}:`, error);
+        
+        // Robust fallback chain
         if (coords?.state) {
           const fallbackRisks = getFallbackRisks(coords.state);
-          setRisks(fallbackRisks);
+          console.log(`Using state fallback for ZIP ${zip}:`, fallbackRisks);
+          setRisks(fallbackRisks.map(item => ({ ...item, dataSource: 'state-fallback' })));
           setCached(cacheKey, fallbackRisks, 31536000);
         } else {
-          setErrors(prev=>({...prev, risks: 'Risk data temporarily unavailable'}));
+          console.error(`No coordinates available for ZIP ${zip}, cannot provide risk data`);
+          setErrors(prev => ({
+            ...prev, 
+            risks: 'Risk data temporarily unavailable for this ZIP code. Please try again later.'
+          }));
         }
       });
   }, [zip, coords]);
@@ -269,9 +299,23 @@ const ZipResultsPage = () => {
             <h2 className="text-2xl font-semibold mb-1">Long-term Climate Risks</h2>
             <p className="text-sm text-muted-foreground mb-4">Top hazards for ZIP {zip}</p>
             {!risks && !errors.risks && <LoadingSkeleton className="h-24 w-full" />}
-            {errors.risks && <p className="text-sm text-muted-foreground">No risk data available</p>}
+            {errors.risks && (
+              <div className="text-sm text-muted-foreground bg-muted/50 border border-muted rounded-lg p-4">
+                <p className="font-medium mb-1">Data Unavailable</p>
+                <p>{errors.risks}</p>
+              </div>
+            )}
             {risks && (
-              <div className="grid gap-4">{risks.map((r,i)=> <RiskBar key={i} item={r} />)}</div>
+              <>
+                <div className="grid gap-4">{risks.map((r,i)=> <RiskBar key={i} item={r} />)}</div>
+                {risks.length > 0 && risks[0]?.dataSource && (
+                  <p className="text-xs text-muted-foreground mt-3 italic">
+                    {risks[0].dataSource === 'zip-specific' && 'Using detailed ZIP-specific climate data'}
+                    {risks[0].dataSource === 'state-based' && `Using ${coords?.state} state-level climate estimates`}
+                    {risks[0].dataSource === 'state-fallback' && `Using ${coords?.state} state-level climate estimates (backup data)`}
+                  </p>
+                )}
+              </>
             )}
           </section>
 

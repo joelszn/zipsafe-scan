@@ -8,6 +8,7 @@ export interface RiskItem {
   name: string;
   score: number; // 0-100
   why?: string;
+  dataSource?: string;
 }
 
 const titleCase = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
