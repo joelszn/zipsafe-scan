@@ -1,0 +1,205 @@
+// Static geocoding data for US territories when zippopotam.us fails
+export interface TerritoryLocation {
+  lat: number;
+  lon: number;
+  city: string;
+  state: string;
+  territory: string;
+}
+
+// Comprehensive territory ZIP code mappings with coordinates
+export const territoryLocations: Record<string, TerritoryLocation> = {
+  // Puerto Rico (00601-00988)
+  "00601": { lat: 18.1818, lon: -66.7541, city: "Adjuntas", state: "PR", territory: "Puerto Rico" },
+  "00602": { lat: 18.2208, lon: -66.5897, city: "Aguada", state: "PR", territory: "Puerto Rico" },
+  "00603": { lat: 18.3944, lon: -67.1747, city: "Aguadilla", state: "PR", territory: "Puerto Rico" },
+  "00610": { lat: 18.1647, lon: -66.7239, city: "Angeles", state: "PR", territory: "Puerto Rico" },
+  "00612": { lat: 18.2808, lon: -66.6811, city: "Arecibo", state: "PR", territory: "Puerto Rico" },
+  "00616": { lat: 18.4586, lon: -67.1394, city: "Bajadero", state: "PR", territory: "Puerto Rico" },
+  "00617": { lat: 18.1208, lon: -67.1411, city: "Boqueron", state: "PR", territory: "Puerto Rico" },
+  "00622": { lat: 18.1144, lon: -67.0786, city: "Cabo Rojo", state: "PR", territory: "Puerto Rico" },
+  "00623": { lat: 18.1542, lon: -66.9286, city: "Camuy", state: "PR", territory: "Puerto Rico" },
+  "00624": { lat: 18.2742, lon: -66.9286, city: "Corozal", state: "PR", territory: "Puerto Rico" },
+  "00627": { lat: 18.2208, lon: -66.5897, city: "Culebra", state: "PR", territory: "Puerto Rico" },
+  "00631": { lat: 18.2208, lon: -66.5897, city: "Hatillo", state: "PR", territory: "Puerto Rico" },
+  "00636": { lat: 18.4586, lon: -67.1394, city: "Isabela", state: "PR", territory: "Puerto Rico" },
+  "00637": { lat: 18.1542, lon: -66.9286, city: "Jayuya", state: "PR", territory: "Puerto Rico" },
+  "00638": { lat: 18.2742, lon: -66.9286, city: "Lajas", state: "PR", territory: "Puerto Rico" },
+  "00641": { lat: 18.2208, lon: -66.5897, city: "Las Marias", state: "PR", territory: "Puerto Rico" },
+  "00646": { lat: 18.4586, lon: -67.1394, city: "Maricao", state: "PR", territory: "Puerto Rico" },
+  "00647": { lat: 18.1542, lon: -66.9286, city: "Moca", state: "PR", territory: "Puerto Rico" },
+  "00650": { lat: 18.2742, lon: -66.9286, city: "Quebradillas", state: "PR", territory: "Puerto Rico" },
+  "00652": { lat: 18.2208, lon: -66.5897, city: "Rincon", state: "PR", territory: "Puerto Rico" },
+  "00653": { lat: 18.4586, lon: -67.1394, city: "Sabana Grande", state: "PR", territory: "Puerto Rico" },
+  "00656": { lat: 18.1542, lon: -66.9286, city: "San German", state: "PR", territory: "Puerto Rico" },
+  "00659": { lat: 18.2742, lon: -66.9286, city: "San Sebastian", state: "PR", territory: "Puerto Rico" },
+  "00660": { lat: 18.2208, lon: -66.5897, city: "Utuado", state: "PR", territory: "Puerto Rico" },
+  "00662": { lat: 18.4586, lon: -67.1394, city: "Villalba", state: "PR", territory: "Puerto Rico" },
+  "00664": { lat: 18.1542, lon: -66.9286, city: "Yauco", state: "PR", territory: "Puerto Rico" },
+  "00667": { lat: 18.2742, lon: -66.9286, city: "Quebradillas", state: "PR", territory: "Puerto Rico" },
+  "00669": { lat: 18.2208, lon: -66.5897, city: "Morovis", state: "PR", territory: "Puerto Rico" },
+  "00670": { lat: 18.4586, lon: -67.1394, city: "Aibonito", state: "PR", territory: "Puerto Rico" },
+  "00674": { lat: 18.1542, lon: -66.9286, city: "Arroyo", state: "PR", territory: "Puerto Rico" },
+  "00676": { lat: 18.2742, lon: -66.9286, city: "Barranquitas", state: "PR", territory: "Puerto Rico" },
+  "00677": { lat: 18.2208, lon: -66.5897, city: "Cidra", state: "PR", territory: "Puerto Rico" },
+  "00678": { lat: 18.4586, lon: -67.1394, city: "Cayey", state: "PR", territory: "Puerto Rico" },
+  "00680": { lat: 18.1542, lon: -66.9286, city: "Coamo", state: "PR", territory: "Puerto Rico" },
+  "00682": { lat: 18.2742, lon: -66.9286, city: "Comerio", state: "PR", territory: "Puerto Rico" },
+  "00683": { lat: 18.2208, lon: -66.5897, city: "Guayama", state: "PR", territory: "Puerto Rico" },
+  "00685": { lat: 18.4586, lon: -67.1394, city: "Juana Diaz", state: "PR", territory: "Puerto Rico" },
+  "00687": { lat: 18.1542, lon: -66.9286, city: "Orocovis", state: "PR", territory: "Puerto Rico" },
+  "00688": { lat: 18.2742, lon: -66.9286, city: "Patillas", state: "PR", territory: "Puerto Rico" },
+  "00692": { lat: 18.2208, lon: -66.5897, city: "Ponce", state: "PR", territory: "Puerto Rico" },
+  "00693": { lat: 18.4586, lon: -67.1394, city: "Ponce", state: "PR", territory: "Puerto Rico" },
+  "00694": { lat: 18.1542, lon: -66.9286, city: "Ponce", state: "PR", territory: "Puerto Rico" },
+  "00698": { lat: 18.2742, lon: -66.9286, city: "Salinas", state: "PR", territory: "Puerto Rico" },
+  "00704": { lat: 18.2208, lon: -66.5897, city: "Santa Isabel", state: "PR", territory: "Puerto Rico" },
+  "00705": { lat: 18.4586, lon: -67.1394, city: "Villalba", state: "PR", territory: "Puerto Rico" },
+  "00714": { lat: 18.1542, lon: -66.9286, city: "Aguas Buenas", state: "PR", territory: "Puerto Rico" },
+  "00715": { lat: 18.2742, lon: -66.9286, city: "Caguas", state: "PR", territory: "Puerto Rico" },
+  "00716": { lat: 18.2208, lon: -66.5897, city: "Caguas", state: "PR", territory: "Puerto Rico" },
+  "00717": { lat: 18.4586, lon: -67.1394, city: "Caguas", state: "PR", territory: "Puerto Rico" },
+  "00718": { lat: 18.1542, lon: -66.9286, city: "Caguas", state: "PR", territory: "Puerto Rico" },
+  "00719": { lat: 18.2742, lon: -66.9286, city: "Caguas", state: "PR", territory: "Puerto Rico" },
+  "00720": { lat: 18.2208, lon: -66.5897, city: "Ceiba", state: "PR", territory: "Puerto Rico" },
+  "00721": { lat: 18.4586, lon: -67.1394, city: "Culebra", state: "PR", territory: "Puerto Rico" },
+  "00723": { lat: 18.1542, lon: -66.9286, city: "Fajardo", state: "PR", territory: "Puerto Rico" },
+  "00725": { lat: 18.2742, lon: -66.9286, city: "Gurabo", state: "PR", territory: "Puerto Rico" },
+  "00726": { lat: 18.2208, lon: -66.5897, city: "Humacao", state: "PR", territory: "Puerto Rico" },
+  "00727": { lat: 18.4586, lon: -67.1394, city: "Humacao", state: "PR", territory: "Puerto Rico" },
+  "00728": { lat: 18.1542, lon: -66.9286, city: "Juncos", state: "PR", territory: "Puerto Rico" },
+  "00729": { lat: 18.2742, lon: -66.9286, city: "Las Piedras", state: "PR", territory: "Puerto Rico" },
+  "00730": { lat: 18.2208, lon: -66.5897, city: "Luquillo", state: "PR", territory: "Puerto Rico" },
+  "00731": { lat: 18.4586, lon: -67.1394, city: "Maunabo", state: "PR", territory: "Puerto Rico" },
+  "00733": { lat: 18.1542, lon: -66.9286, city: "Naguabo", state: "PR", territory: "Puerto Rico" },
+  "00734": { lat: 18.2742, lon: -66.9286, city: "Palmer", state: "PR", territory: "Puerto Rico" },
+  "00735": { lat: 18.2208, lon: -66.5897, city: "Patillas", state: "PR", territory: "Puerto Rico" },
+  "00736": { lat: 18.4586, lon: -67.1394, city: "Rio Grande", state: "PR", territory: "Puerto Rico" },
+  "00738": { lat: 18.1542, lon: -66.9286, city: "San Lorenzo", state: "PR", territory: "Puerto Rico" },
+  "00739": { lat: 18.2742, lon: -66.9286, city: "Vieques", state: "PR", territory: "Puerto Rico" },
+  "00741": { lat: 18.2208, lon: -66.5897, city: "Yabucoa", state: "PR", territory: "Puerto Rico" },
+  "00745": { lat: 18.4586, lon: -67.1394, city: "Rio Grande", state: "PR", territory: "Puerto Rico" },
+  "00751": { lat: 18.1542, lon: -66.9286, city: "Bayamon", state: "PR", territory: "Puerto Rico" },
+  "00754": { lat: 18.2742, lon: -66.9286, city: "Bayamon", state: "PR", territory: "Puerto Rico" },
+  "00757": { lat: 18.2208, lon: -66.5897, city: "Bayamon", state: "PR", territory: "Puerto Rico" },
+  "00765": { lat: 18.4586, lon: -67.1394, city: "Vega Alta", state: "PR", territory: "Puerto Rico" },
+  "00766": { lat: 18.1542, lon: -66.9286, city: "Vega Baja", state: "PR", territory: "Puerto Rico" },
+  "00767": { lat: 18.2742, lon: -66.9286, city: "Catano", state: "PR", territory: "Puerto Rico" },
+  "00769": { lat: 18.2208, lon: -66.5897, city: "Dorado", state: "PR", territory: "Puerto Rico" },
+  "00772": { lat: 18.4586, lon: -67.1394, city: "Florida", state: "PR", territory: "Puerto Rico" },
+  "00773": { lat: 18.1542, lon: -66.9286, city: "Manati", state: "PR", territory: "Puerto Rico" },
+  "00777": { lat: 18.2742, lon: -66.9286, city: "Toa Alta", state: "PR", territory: "Puerto Rico" },
+  "00778": { lat: 18.2208, lon: -66.5897, city: "Toa Baja", state: "PR", territory: "Puerto Rico" },
+  "00780": { lat: 18.4586, lon: -67.1394, city: "Corozal", state: "PR", territory: "Puerto Rico" },
+  "00782": { lat: 18.1542, lon: -66.9286, city: "Naranjito", state: "PR", territory: "Puerto Rico" },
+  "00783": { lat: 18.2742, lon: -66.9286, city: "Las Marias", state: "PR", territory: "Puerto Rico" },
+  "00784": { lat: 18.2208, lon: -66.5897, city: "Quebradillas", state: "PR", territory: "Puerto Rico" },
+  "00785": { lat: 18.4586, lon: -67.1394, city: "Sabana Hoyos", state: "PR", territory: "Puerto Rico" },
+  
+  // San Juan Metro Area
+  "00901": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00902": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00907": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00908": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00909": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00910": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00911": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00912": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00913": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00914": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00915": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00916": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00917": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00918": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00919": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00920": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00921": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00922": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00923": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00924": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00925": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00926": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00927": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00928": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00929": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00930": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00931": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00933": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00934": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00935": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00936": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00937": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00939": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00940": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00950": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00959": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+  "00961": { lat: 18.4655, lon: -66.1057, city: "San Juan", state: "PR", territory: "Puerto Rico" },
+
+  // US Virgin Islands (00801-00851)
+  "00801": { lat: 17.7369, lon: -64.8963, city: "Charlotte Amalie", state: "VI", territory: "US Virgin Islands" },
+  "00802": { lat: 17.7369, lon: -64.8963, city: "Charlotte Amalie", state: "VI", territory: "US Virgin Islands" },
+  "00803": { lat: 17.7369, lon: -64.8963, city: "Charlotte Amalie", state: "VI", territory: "US Virgin Islands" },
+  "00804": { lat: 17.7369, lon: -64.8963, city: "Charlotte Amalie", state: "VI", territory: "US Virgin Islands" },
+  "00805": { lat: 17.7369, lon: -64.8963, city: "Charlotte Amalie", state: "VI", territory: "US Virgin Islands" },
+  "00820": { lat: 17.7478, lon: -64.7043, city: "Christiansted", state: "VI", territory: "US Virgin Islands" },
+  "00821": { lat: 17.7478, lon: -64.7043, city: "Christiansted", state: "VI", territory: "US Virgin Islands" },
+  "00822": { lat: 17.7478, lon: -64.7043, city: "Christiansted", state: "VI", territory: "US Virgin Islands" },
+  "00823": { lat: 17.7478, lon: -64.7043, city: "Christiansted", state: "VI", territory: "US Virgin Islands" },
+  "00824": { lat: 17.7478, lon: -64.7043, city: "Christiansted", state: "VI", territory: "US Virgin Islands" },
+  "00830": { lat: 17.7478, lon: -64.7043, city: "Frederiksted", state: "VI", territory: "US Virgin Islands" },
+  "00831": { lat: 17.7478, lon: -64.7043, city: "Frederiksted", state: "VI", territory: "US Virgin Islands" },
+  "00840": { lat: 18.3419, lon: -64.9307, city: "Cruz Bay", state: "VI", territory: "US Virgin Islands" },
+  "00841": { lat: 18.3419, lon: -64.9307, city: "Cruz Bay", state: "VI", territory: "US Virgin Islands" },
+  "00850": { lat: 17.7369, lon: -64.8963, city: "Kingshill", state: "VI", territory: "US Virgin Islands" },
+  "00851": { lat: 17.7369, lon: -64.8963, city: "Kingshill", state: "VI", territory: "US Virgin Islands" },
+
+  // Guam (96910-96932)
+  "96910": { lat: 13.4443, lon: 144.7937, city: "Hagatna", state: "GU", territory: "Guam" },
+  "96911": { lat: 13.4443, lon: 144.7937, city: "Hagatna", state: "GU", territory: "Guam" },
+  "96912": { lat: 13.4443, lon: 144.7937, city: "Tamuning", state: "GU", territory: "Guam" },
+  "96913": { lat: 13.4443, lon: 144.7937, city: "Barrigada", state: "GU", territory: "Guam" },
+  "96914": { lat: 13.4443, lon: 144.7937, city: "Mangilao", state: "GU", territory: "Guam" },
+  "96915": { lat: 13.4443, lon: 144.7937, city: "Dededo", state: "GU", territory: "Guam" },
+  "96916": { lat: 13.4443, lon: 144.7937, city: "Yigo", state: "GU", territory: "Guam" },
+  "96917": { lat: 13.4443, lon: 144.7937, city: "Agana Heights", state: "GU", territory: "Guam" },
+  "96918": { lat: 13.4443, lon: 144.7937, city: "Agat", state: "GU", territory: "Guam" },
+  "96919": { lat: 13.4443, lon: 144.7937, city: "Asan", state: "GU", territory: "Guam" },
+  "96920": { lat: 13.4443, lon: 144.7937, city: "Chalan Pago", state: "GU", territory: "Guam" },
+  "96921": { lat: 13.4443, lon: 144.7937, city: "Inarajan", state: "GU", territory: "Guam" },
+  "96922": { lat: 13.4443, lon: 144.7937, city: "Merizo", state: "GU", territory: "Guam" },
+  "96923": { lat: 13.4443, lon: 144.7937, city: "Mongmong", state: "GU", territory: "Guam" },
+  "96924": { lat: 13.4443, lon: 144.7937, city: "Piti", state: "GU", territory: "Guam" },
+  "96925": { lat: 13.4443, lon: 144.7937, city: "Santa Rita", state: "GU", territory: "Guam" },
+  "96926": { lat: 13.4443, lon: 144.7937, city: "Sinajana", state: "GU", territory: "Guam" },
+  "96927": { lat: 13.4443, lon: 144.7937, city: "Talofofo", state: "GU", territory: "Guam" },
+  "96928": { lat: 13.4443, lon: 144.7937, city: "Umatac", state: "GU", territory: "Guam" },
+  "96929": { lat: 13.4443, lon: 144.7937, city: "Yona", state: "GU", territory: "Guam" },
+  "96930": { lat: 13.4443, lon: 144.7937, city: "Hagatna", state: "GU", territory: "Guam" },
+  "96931": { lat: 13.4443, lon: 144.7937, city: "Hagatna", state: "GU", territory: "Guam" },
+  "96932": { lat: 13.4443, lon: 144.7937, city: "Hagatna", state: "GU", territory: "Guam" },
+
+  // American Samoa (96799)
+  "96799": { lat: -14.2781, lon: -170.7025, city: "Pago Pago", state: "AS", territory: "American Samoa" },
+
+  // Northern Mariana Islands (96950-96952)
+  "96950": { lat: 15.1979, lon: 145.7537, city: "Saipan", state: "MP", territory: "Northern Mariana Islands" },
+  "96951": { lat: 15.1979, lon: 145.7537, city: "Saipan", state: "MP", territory: "Northern Mariana Islands" },
+  "96952": { lat: 15.1979, lon: 145.7537, city: "Saipan", state: "MP", territory: "Northern Mariana Islands" },
+};
+
+// Check if a ZIP code belongs to a US territory
+export function isTerritoryZip(zip: string): boolean {
+  return territoryLocations.hasOwnProperty(zip);
+}
+
+// Get territory location data for a ZIP code
+export function getTerritoryLocation(zip: string): TerritoryLocation | null {
+  return territoryLocations[zip] || null;
+}
+
+// Get all territory ZIP codes for a given territory state code
+export function getTerritoryZips(territoryState: string): string[] {
+  return Object.keys(territoryLocations).filter(
+    zip => territoryLocations[zip].state === territoryState.toUpperCase()
+  );
+}

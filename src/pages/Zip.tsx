@@ -38,6 +38,17 @@ const ZipResultsPage = () => {
 
   const [errors, setErrors] = useState<{alerts?:string;quakes?:string;risks?:string;flood?:string;coords?:string}>({});
 
+  // Clear all state when ZIP changes to prevent cache bleed
+  useEffect(() => {
+    console.log(`ZIP changed to: ${zip}`);
+    setCoords(null);
+    setAlerts(null);
+    setQuakes(null);
+    setRisks(null);
+    setFlood(null);
+    setErrors({});
+  }, [zip]);
+
   useEffect(() => {
     if (!valid) return;
     let mounted = true;

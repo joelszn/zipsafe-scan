@@ -135,6 +135,41 @@ const stateRiskProfiles: Record<string, RiskItem[]> = {
     { name: "wind", score: 38, why: "severe thunderstorms" }
   ],
   
+  // Puerto Rico - Very high hurricane, high heat, moderate flood
+  PR: [
+    { name: "hurricane", score: 94, why: "high exposure to Atlantic hurricanes and tropical storms" },
+    { name: "heat", score: 78, why: "tropical climate with intense heat and humidity" },
+    { name: "flood", score: 72, why: "mountainous terrain causing flash floods and storm surge" }
+  ],
+  
+  // US Virgin Islands - Very high hurricane, high heat, moderate flood
+  VI: [
+    { name: "hurricane", score: 92, why: "Caribbean location with frequent hurricane exposure" },
+    { name: "heat", score: 76, why: "tropical climate with consistent high temperatures" },
+    { name: "flood", score: 68, why: "storm surge and heavy rainfall from tropical systems" }
+  ],
+  
+  // Guam - Very high wind (typhoons), high heat, moderate earthquake
+  GU: [
+    { name: "wind", score: 89, why: "Western Pacific typhoon belt with frequent severe storms" },
+    { name: "heat", score: 81, why: "tropical climate with year-round high temperatures" },
+    { name: "earthquake", score: 58, why: "Pacific Ring of Fire seismic activity" }
+  ],
+  
+  // American Samoa - High wind (cyclones), high heat, moderate earthquake
+  AS: [
+    { name: "wind", score: 84, why: "South Pacific cyclone season exposure" },
+    { name: "heat", score: 79, why: "equatorial tropical climate" },
+    { name: "earthquake", score: 52, why: "Pacific Ring of Fire volcanic and seismic activity" }
+  ],
+  
+  // Northern Mariana Islands - Very high wind (typhoons), high heat, moderate earthquake
+  MP: [
+    { name: "wind", score: 87, why: "Western Pacific typhoon alley location" },
+    { name: "heat", score: 80, why: "tropical marine climate with high humidity" },
+    { name: "earthquake", score: 55, why: "Pacific volcanic arc seismic activity" }
+  ],
+
   // Default fallback for other states
   DEFAULT: [
     { name: "heat", score: 55, why: "seasonal temperature extremes" },
