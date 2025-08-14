@@ -311,7 +311,9 @@ const ZipResultsPage = () => {
                 </p>
               )}
               {!coords && !errors.coords && (
-                <LoadingSkeleton className="h-6 w-48 mx-auto" />
+                <div className="flex justify-center">
+                  <LoadingSkeleton className="h-6 w-48" showText text="Getting location..." />
+                </div>
               )}
             </div>
           </Container>
@@ -321,7 +323,9 @@ const ZipResultsPage = () => {
           <section>
             <h2 className="text-2xl font-semibold mb-1">Live Weather Alerts</h2>
             <p className="text-sm text-muted-foreground mb-4">Official alerts from NOAA NWS</p>
-            {!alerts && !errors.alerts && <LoadingSkeleton className="h-24 w-full" />}
+            {!alerts && !errors.alerts && (
+              <LoadingSkeleton className="h-20 w-full" lines={2} showText text="Checking for weather alerts..." />
+            )}
             {errors.alerts && <p className="text-sm text-destructive">{errors.alerts}</p>}
             {alerts && alerts.length === 0 && <p className="text-sm">No active alerts</p>}
             {alerts && alerts.length > 0 && (
@@ -332,7 +336,9 @@ const ZipResultsPage = () => {
           <section>
             <h2 className="text-2xl font-semibold mb-1">Recent Earthquakes Nearby</h2>
             <p className="text-sm text-muted-foreground mb-4">Past 72 hours within 100 km</p>
-            {!quakes && !errors.quakes && <LoadingSkeleton className="h-20 w-full" />}
+            {!quakes && !errors.quakes && (
+              <LoadingSkeleton className="h-16 w-full" lines={3} showText text="Searching for recent earthquakes..." />
+            )}
             {errors.quakes && <p className="text-sm text-muted-foreground">Failed to load earthquakes</p>}
             {quakes && quakes.length === 0 && <p className="text-sm">No recent earthquakes nearby</p>}
             {quakes && quakes.length > 0 && (
@@ -352,10 +358,7 @@ const ZipResultsPage = () => {
             <h2 className="text-2xl font-semibold mb-1">Long-term Climate Risks</h2>
             <p className="text-sm text-muted-foreground mb-4">Top hazards for ZIP {zip}</p>
             {!risks && !errors.risks && (
-              <div className="space-y-2">
-                <LoadingSkeleton className="h-24 w-full" />
-                <p className="text-xs text-muted-foreground">Loading climate risk data...</p>
-              </div>
+              <LoadingSkeleton className="h-20 w-full" lines={3} showText text="Analyzing climate risks..." />
             )}
             {errors.risks && (
               <div className="bg-muted/50 border border-muted rounded-lg p-4">
@@ -403,7 +406,9 @@ const ZipResultsPage = () => {
 
           <section>
             <h2 className="text-2xl font-semibold mb-1">Flood Insurance Likelihood</h2>
-            {!flood && !errors.flood && <LoadingSkeleton className="h-16 w-full" />}
+            {!flood && !errors.flood && (
+              <LoadingSkeleton className="h-16 w-full" showText text="Checking flood zones..." />
+            )}
             {errors.flood && <p className="text-sm text-muted-foreground">Flood data temporarily unavailable</p>}
             {flood && <FloodLikelihoodBadge data={{ likelihood: flood.likelihood, rationale: flood.rationale, disclaimer: flood.disclaimer }} />}
           </section>
