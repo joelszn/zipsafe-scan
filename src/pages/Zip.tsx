@@ -11,6 +11,7 @@ import PrepLinks from "@/components/ui/PrepLinks";
 import ShareButton from "@/components/ui/ShareButton";
 import ZipSearchForm from "@/components/ui/ZipSearchForm";
 import { getCoordsForZip, isValidZip } from "@/lib/geo";
+import { getFallbackRisks } from "@/lib/fallbackRisks";
 import { getCached, setCached } from "@/lib/cache";
 import { Helmet } from "react-helmet-async";
 
@@ -118,7 +119,7 @@ const ZipResultsPage = () => {
     return () => controller.abort();
   }, [coords, zip]);
 
-  // Risk (static JSON)
+  // Risk (static JSON with fallback)
   useEffect(() => {
     const cacheKey = `risk:${zip}`;
     const cached = getCached<RiskItem[]>(cacheKey);
@@ -127,12 +128,27 @@ const ZipResultsPage = () => {
     fetch('/data/risk.zip.min.json')
       .then(r=> r.ok ? r.json(): Promise.reject('Static risk not found'))
       .then((json) => {
-        const list = json?.[zip]?.hazards || [];
+        let list = json?.[zip]?.hazards || [];
+        
+        // If no data for this ZIP, use state-based fallback
+        if (list.length === 0 && coords?.state) {
+          list = getFallbackRisks(coords.state);
+        }
+        
         setRisks(list);
         setCached(cacheKey, list, 31536000);
       })
-      .catch(()=> setErrors(prev=>({...prev, risks: 'No risk data for this ZIP'})));
-  }, [zip]);
+      .catch(()=> {
+        // If fetch fails entirely, use fallback based on coords
+        if (coords?.state) {
+          const fallbackRisks = getFallbackRisks(coords.state);
+          setRisks(fallbackRisks);
+          setCached(cacheKey, fallbackRisks, 31536000);
+        } else {
+          setErrors(prev=>({...prev, risks: 'Risk data temporarily unavailable'}));
+        }
+      });
+  }, [zip, coords]);
 
   // Flood
   useEffect(() => {
