@@ -134,7 +134,7 @@ const ZipResultsPage = () => {
   useEffect(() => {
     if (!coords) return; // Wait for coordinates before loading risks
     
-    const cacheKey = `risk:${zip}`;
+    const cacheKey = `risk:${zip}:v2`; // Updated cache version
     const cached = getCached<RiskItem[]>(cacheKey);
     if (cached) { 
       setRisks(cached); 
@@ -143,9 +143,24 @@ const ZipResultsPage = () => {
 
     console.log(`Loading risk data for ZIP ${zip}, state: ${coords.state}`);
     
-    fetch('/data/risk.zip.min.json')
+    // Set loading timeout for better UX
+    const loadingTimeout = setTimeout(() => {
+      if (!risks) {
+        console.log(`Loading timeout for ZIP ${zip}, using fallback data`);
+        const fallbackRisks = getFallbackRisks(coords.state);
+        setRisks(fallbackRisks.map(item => ({ ...item, dataSource: 'state-fallback-timeout' })));
+        setCached(cacheKey, fallbackRisks, 31536000);
+      }
+    }, 5000);
+    
+    const controller = new AbortController();
+    const fetchTimeout = setTimeout(() => controller.abort(), 8000);
+    
+    fetch('/data/risk.zip.min.json', { signal: controller.signal })
       .then(r => {
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        clearTimeout(loadingTimeout);
+        clearTimeout(fetchTimeout);
+        if (!r.ok) throw new Error(`HTTP ${r.status}: ${r.statusText}`);
         return r.json();
       })
       .then((json) => {
@@ -161,11 +176,20 @@ const ZipResultsPage = () => {
           dataSource = 'state-based';
         }
         
-        // Validate data structure
+        // Validate data structure and ensure minimum data quality
         if (!Array.isArray(list) || list.length === 0) {
           console.warn(`Invalid or empty risk data for ZIP ${zip}`);
           list = getFallbackRisks(coords.state);
           dataSource = 'state-fallback';
+        }
+        
+        // Ensure each risk item has required fields
+        list = list.filter(item => item && typeof item.name === 'string' && typeof item.score === 'number');
+        
+        if (list.length === 0) {
+          console.error(`No valid risk items after filtering for ZIP ${zip}`);
+          list = getFallbackRisks(coords.state);
+          dataSource = 'state-fallback-filtered';
         }
         
         console.log(`Final risk data for ZIP ${zip}:`, list, `(${dataSource})`);
@@ -173,22 +197,40 @@ const ZipResultsPage = () => {
         setCached(cacheKey, list, 31536000);
       })
       .catch((error) => {
+        clearTimeout(loadingTimeout);
+        clearTimeout(fetchTimeout);
+        
         console.error(`Failed to load static risk data for ZIP ${zip}:`, error);
         
-        // Robust fallback chain
+        // Enhanced fallback chain with better error handling
         if (coords?.state) {
           const fallbackRisks = getFallbackRisks(coords.state);
-          console.log(`Using state fallback for ZIP ${zip}:`, fallbackRisks);
-          setRisks(fallbackRisks.map(item => ({ ...item, dataSource: 'state-fallback' })));
-          setCached(cacheKey, fallbackRisks, 31536000);
+          
+          if (fallbackRisks && fallbackRisks.length > 0) {
+            console.log(`Using state fallback for ZIP ${zip}:`, fallbackRisks);
+            setRisks(fallbackRisks.map(item => ({ ...item, dataSource: 'state-fallback-error' })));
+            setCached(cacheKey, fallbackRisks, 31536000);
+          } else {
+            console.error(`No fallback risks available for state ${coords.state}`);
+            setErrors(prev => ({
+              ...prev, 
+              risks: 'Climate risk data is temporarily unavailable. Our state-level estimates are being updated. Please check back later.'
+            }));
+          }
         } else {
           console.error(`No coordinates available for ZIP ${zip}, cannot provide risk data`);
           setErrors(prev => ({
             ...prev, 
-            risks: 'Risk data temporarily unavailable for this ZIP code. Please try again later.'
+            risks: 'Unable to determine location for this ZIP code. Please verify the ZIP code and try again.'
           }));
         }
       });
+      
+    return () => {
+      clearTimeout(loadingTimeout);
+      clearTimeout(fetchTimeout);
+      controller.abort();
+    };
   }, [zip, coords]);
 
   // Flood
@@ -309,24 +351,53 @@ const ZipResultsPage = () => {
           <section>
             <h2 className="text-2xl font-semibold mb-1">Long-term Climate Risks</h2>
             <p className="text-sm text-muted-foreground mb-4">Top hazards for ZIP {zip}</p>
-            {!risks && !errors.risks && <LoadingSkeleton className="h-24 w-full" />}
-            {errors.risks && (
-              <div className="text-sm text-muted-foreground bg-muted/50 border border-muted rounded-lg p-4">
-                <p className="font-medium mb-1">Data Unavailable</p>
-                <p>{errors.risks}</p>
+            {!risks && !errors.risks && (
+              <div className="space-y-2">
+                <LoadingSkeleton className="h-24 w-full" />
+                <p className="text-xs text-muted-foreground">Loading climate risk data...</p>
               </div>
             )}
-            {risks && (
+            {errors.risks && (
+              <div className="bg-muted/50 border border-muted rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <div className="flex-shrink-0 w-2 h-2 bg-warning rounded-full mt-2"></div>
+                  <div>
+                    <p className="font-medium text-sm mb-1">Climate Data Unavailable</p>
+                    <p className="text-sm text-muted-foreground">{errors.risks}</p>
+                    <button 
+                      onClick={() => window.location.reload()} 
+                      className="text-xs text-primary hover:underline mt-2"
+                    >
+                      Try refreshing the page
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+            {risks && risks.length > 0 && (
               <>
                 <div className="grid gap-4">{risks.map((r,i)=> <RiskBar key={i} item={r} />)}</div>
-                {risks.length > 0 && risks[0]?.dataSource && (
-                  <p className="text-xs text-muted-foreground mt-3 italic">
-                    {risks[0].dataSource === 'zip-specific' && 'Using detailed ZIP-specific climate data'}
-                    {risks[0].dataSource === 'state-based' && `Using ${coords?.state} state-level climate estimates`}
-                    {risks[0].dataSource === 'state-fallback' && `Using ${coords?.state} state-level climate estimates (backup data)`}
-                  </p>
+                {risks[0]?.dataSource && (
+                  <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+                    <div className={`w-2 h-2 rounded-full ${
+                      risks[0].dataSource === 'zip-specific' ? 'bg-success' :
+                      risks[0].dataSource.startsWith('state-based') ? 'bg-info' : 'bg-warning'
+                    }`}></div>
+                    <span>
+                      {risks[0].dataSource === 'zip-specific' && 'Detailed ZIP-specific climate data'}
+                      {risks[0].dataSource === 'state-based' && `${coords?.state} state-level climate estimates`}
+                      {risks[0].dataSource.includes('fallback') && `${coords?.state} state-level estimates (fallback data)`}
+                      {risks[0].dataSource.includes('timeout') && `${coords?.state} state-level estimates (connection timeout)`}
+                      {risks[0].dataSource.includes('error') && `${coords?.state} state-level estimates (data service error)`}
+                    </span>
+                  </div>
                 )}
               </>
+            )}
+            {risks && risks.length === 0 && (
+              <div className="bg-muted/50 border border-muted rounded-lg p-4">
+                <p className="text-sm text-muted-foreground">No climate risk data available for this location.</p>
+              </div>
             )}
           </section>
 
