@@ -73,6 +73,18 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				risk: {
+					'very-low': 'hsl(var(--risk-very-low))',
+					'very-low-foreground': 'hsl(var(--risk-very-low-foreground))',
+					'low': 'hsl(var(--risk-low))',
+					'low-foreground': 'hsl(var(--risk-low-foreground))',
+					'moderate': 'hsl(var(--risk-moderate))',
+					'moderate-foreground': 'hsl(var(--risk-moderate-foreground))',
+					'high': 'hsl(var(--risk-high))',
+					'high-foreground': 'hsl(var(--risk-high-foreground))',
+					'very-high': 'hsl(var(--risk-very-high))',
+					'very-high-foreground': 'hsl(var(--risk-very-high-foreground))'
 				}
 			},
 			borderRadius: {
