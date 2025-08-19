@@ -5,6 +5,8 @@ import Header from "@/components/ui/Header";
 import Footer from "@/components/ui/Footer";
 import LoadingSkeleton from "@/components/ui/LoadingSkeleton";
 import AlertCard, { AlertData } from "@/components/ui/AlertCard";
+import AlertSeverityChart from "@/components/ui/AlertSeverityChart";
+import ResultsNav from "@/components/ui/ResultsNav";
 import RiskBar, { RiskItem } from "@/components/ui/RiskBar";
 import FloodLikelihoodBadge from "@/components/ui/FloodLikelihoodBadge";
 import PrepLinks from "@/components/ui/PrepLinks";
@@ -337,6 +339,16 @@ const ZipResultsPage = () => {
         <meta property="og:description" content={pageDesc} />
       </Helmet>
       <Header />
+      
+      {/* Results Navigation */}
+      <ResultsNav 
+        zipCode={zip}
+        hasAlerts={!!(alerts && alerts.length > 0)}
+        hasEarthquakes={!!(quakes && quakes.length > 0)}
+        hasRisks={!!(risks && risks.length > 0)}
+        hasFlood={!!flood}
+      />
+      
       <main>
         {/* ZIP Code and Location Header */}
         <section className={`bg-gradient-to-r border-b ${
@@ -385,7 +397,7 @@ const ZipResultsPage = () => {
         
         <Container className="py-8 space-y-10">
           
-          <section>
+          <section id="weather-alerts">
             <h2 className="text-2xl font-semibold mb-1">Live Weather Alerts</h2>
             <p className="text-sm text-muted-foreground mb-4">Official alerts from NOAA NWS</p>
             {!alerts && !errors.alerts && (
@@ -394,11 +406,14 @@ const ZipResultsPage = () => {
             {errors.alerts && <p className="text-sm text-destructive">{errors.alerts}</p>}
             {alerts && alerts.length === 0 && <p className="text-sm">No active alerts</p>}
             {alerts && alerts.length > 0 && (
-              <div className="grid gap-4">{alerts.map((a, i)=> <AlertCard key={i} alert={a} />)}</div>
+              <div className="space-y-4">
+                <div className="grid gap-4">{alerts.map((a, i)=> <AlertCard key={i} alert={a} />)}</div>
+                <AlertSeverityChart alerts={alerts} />
+              </div>
             )}
           </section>
 
-          <section>
+          <section id="earthquakes">
             <h2 className="text-2xl font-semibold mb-1">Recent Earthquakes Nearby</h2>
             <p className="text-sm text-muted-foreground mb-4">Past 72 hours within 100 km</p>
             {!quakes && !errors.quakes && (
@@ -419,7 +434,7 @@ const ZipResultsPage = () => {
             )}
           </section>
 
-          <section>
+          <section id="climate-risks">
             <h2 className="text-2xl font-semibold mb-1">Long-term Climate Risks</h2>
             <p className="text-sm text-muted-foreground mb-4">Top hazards for ZIP {zip}</p>
             {!risks && !errors.risks && (
@@ -469,7 +484,7 @@ const ZipResultsPage = () => {
             )}
           </section>
 
-          <section>
+          <section id="flood-insurance">
             <h2 className="text-2xl font-semibold mb-1">Flood Insurance Likelihood</h2>
             {!flood && !errors.flood && (
               <LoadingSkeleton className="h-16 w-full" showText text="Checking flood zones..." />
@@ -478,7 +493,7 @@ const ZipResultsPage = () => {
             {flood && <FloodLikelihoodBadge data={{ likelihood: flood.likelihood, rationale: flood.rationale, disclaimer: flood.disclaimer }} />}
           </section>
 
-          <section>
+          <section id="preparation">
             <h2 className="text-2xl font-semibold mb-1">Preparation</h2>
             <PrepLinks />
           </section>
