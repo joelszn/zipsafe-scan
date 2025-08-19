@@ -1,5 +1,6 @@
 import { Badge } from "./badge";
 import { Card, CardContent, CardHeader, CardTitle } from "./card";
+import { processAlertDescription } from "@/lib/utils";
 
 export interface AlertData {
   title: string;
@@ -33,7 +34,9 @@ const AlertCard = ({ alert }: { alert: AlertData }) => {
       </CardHeader>
       <CardContent className="space-y-2 text-sm">
         {(instructions || description) && (
-          <p className="leading-relaxed">{instructions || description}</p>
+          <p className="leading-relaxed">
+            {instructions || processAlertDescription(description || '')}
+          </p>
         )}
         <div className="text-muted-foreground">
           {effective && <span>Effective: {new Date(effective).toLocaleString()}</span>}
