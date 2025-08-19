@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "./card";
 export interface AlertData {
   title: string;
   severity: string;
-  event?: string | null;
   effective?: string | null;
   expires?: string | null;
   instructions?: string | null;
@@ -20,18 +19,13 @@ function severityToVariant(sev: string): "destructive" | "warning" | "info" | "s
 }
 
 const AlertCard = ({ alert }: { alert: AlertData }) => {
-  const { title, severity, event, effective, expires, instructions, source } = alert;
+  const { title, severity, effective, expires, instructions, source } = alert;
   const showSeverityBadge = severity === 'Severe' || severity === 'Extreme';
   
   return (
     <Card>
       <CardHeader className="flex flex-row items-start justify-between gap-3">
-        <div className="flex-1">
-          {event && (
-            <div className="text-sm text-muted-foreground mb-1">{event}</div>
-          )}
-          <CardTitle className="text-base leading-snug">{title}</CardTitle>
-        </div>
+        <CardTitle className="text-base leading-snug flex-1">{title}</CardTitle>
         {showSeverityBadge && (
           <Badge variant={severityToVariant(severity)}>{severity}</Badge>
         )}
