@@ -5,7 +5,7 @@ import Header from "@/components/ui/Header";
 import Footer from "@/components/ui/Footer";
 import LoadingSkeleton from "@/components/ui/LoadingSkeleton";
 import AlertCard, { AlertData } from "@/components/ui/AlertCard";
-import AlertSeverityChart from "@/components/ui/AlertSeverityChart";
+
 import ResultsNav from "@/components/ui/ResultsNav";
 import RiskBar, { RiskItem } from "@/components/ui/RiskBar";
 import FloodLikelihoodBadge from "@/components/ui/FloodLikelihoodBadge";
@@ -375,22 +375,6 @@ const ZipResultsPage = () => {
                   <LoadingSkeleton className="h-6 w-48" showText text="Getting location..." />
                 </div>
               )}
-              {/* Show links for severe alerts */}
-              {coords && alerts && getSevereAlerts(alerts).length > 0 && (
-                <div className="mt-4 space-y-1">
-                  {getSevereAlertLinks(alerts).map((link, index) => (
-                    <a
-                      key={index}
-                      href={link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block text-primary hover:text-primary/80 underline break-words text-sm"
-                    >
-                      {link}
-                    </a>
-                  ))}
-                </div>
-              )}
             </div>
           </Container>
         </section>
@@ -400,6 +384,45 @@ const ZipResultsPage = () => {
           <section id="weather-alerts">
             <h2 className="text-2xl font-semibold mb-1">Live Weather Alerts</h2>
             <p className="text-sm text-muted-foreground mb-4">Official alerts from NOAA NWS</p>
+            
+            {/* Alert Severity Guide - Only show when moderate+ alerts exist */}
+            {alerts && alerts.some(alert => {
+              const severity = (alert.severity || '').toLowerCase();
+              return severity === 'moderate' || severity === 'severe' || severity === 'extreme';
+            }) && (
+              <div className="mb-6 border rounded-lg bg-muted/30 p-4">
+                <h3 className="font-medium mb-3 text-sm">Alert Severity Guide</h3>
+                <div className="space-y-2 text-xs">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <span className="font-medium text-amber-700 dark:text-amber-300">Moderate:</span>
+                      <span className="ml-2">Weather conditions pose a threat to life or property</span>
+                    </div>
+                    <div className="text-muted-foreground">
+                      Stay informed, avoid unnecessary travel, secure outdoor items
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <span className="font-medium text-orange-700 dark:text-orange-300">Severe:</span>
+                      <span className="ml-2">Dangerous weather conditions with significant threat to safety</span>
+                    </div>
+                    <div className="text-muted-foreground">
+                      Take shelter immediately, avoid travel, consider moving to interior rooms
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <span className="font-medium text-destructive">Extreme:</span>
+                      <span className="ml-2">Extraordinary weather event with widespread threat to life and property</span>
+                    </div>
+                    <div className="text-muted-foreground">
+                      <span className="font-medium">Evacuate if ordered by officials</span>, seek sturdy shelter, stay away from coast/flood zones
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
             {!alerts && !errors.alerts && (
               <LoadingSkeleton className="h-20 w-full" lines={2} showText text="Checking for weather alerts..." />
             )}
@@ -408,7 +431,6 @@ const ZipResultsPage = () => {
             {alerts && alerts.length > 0 && (
               <div className="space-y-4">
                 <div className="grid gap-4">{alerts.map((a, i)=> <AlertCard key={i} alert={a} />)}</div>
-                <AlertSeverityChart alerts={alerts} />
               </div>
             )}
           </section>
