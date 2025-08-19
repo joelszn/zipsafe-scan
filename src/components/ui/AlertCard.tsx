@@ -20,7 +20,7 @@ function severityToVariant(sev: string): "destructive" | "warning" | "info" | "s
 
 const AlertCard = ({ alert }: { alert: AlertData }) => {
   const { title, severity, effective, expires, instructions, source } = alert;
-  const showSeverityBadge = severity === 'Severe' || severity === 'Extreme';
+  const showSeverityBadge = severity === 'Severe' || severity === 'Extreme' || severity === 'Moderate';
   
   return (
     <Card>
