@@ -88,13 +88,24 @@ export function processAlertDescription(description: string): ProcessedAlert {
     }
   }
   
+  // If we still don't have a good summary, try to extract first meaningful sentence from original
+  if (!summary && sentences.length > 0) {
+    const firstSentence = sentences[0];
+    if (firstSentence.length <= maxChars) {
+      summary = firstSentence;
+    } else {
+      // Truncate first sentence to fit 2 lines
+      summary = firstSentence.substring(0, maxChars - 3) + "...";
+    }
+  }
+  
   // Ensure proper sentence ending
   if (summary && !summary.match(/[.!]$/)) {
     summary += '.';
   }
   
   return { 
-    text: summary || "Weather alert issued for your area.",
+    text: summary || "Alert information unavailable - check links below for details.",
     links: links
   };
 }
