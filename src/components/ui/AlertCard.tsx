@@ -24,10 +24,10 @@ const AlertCard = ({ alert }: { alert: AlertData }) => {
   const { title, severity, effective, expires, instructions, description, source } = alert;
   const showSeverityBadge = severity === 'Severe' || severity === 'Extreme' || severity === 'Moderate';
   
-  // Process description for summary and links
-  const processedAlert: ProcessedAlert = instructions 
-    ? { text: instructions, links: [] }
-    : processAlertDescription(description || '');
+  // Extract links from description regardless, but only show instructions text
+  const descriptionLinks = processAlertDescription(description || '').links;
+  const displayText = instructions || '';
+  const allLinks = descriptionLinks;
   
   return (
     <Card>
@@ -37,13 +37,13 @@ const AlertCard = ({ alert }: { alert: AlertData }) => {
           <Badge variant={severityToVariant(severity)}>{severity}</Badge>
         )}
       </CardHeader>
-      <CardContent className="space-y-2 text-sm">
-        {(instructions || description) && (
+       <CardContent className="space-y-2 text-sm">
+        {instructions && (
           <div className="space-y-2">
-            <p className="leading-relaxed">{processedAlert.text}</p>
-            {processedAlert.links.length > 0 && (
+            <p className="leading-relaxed">{displayText}</p>
+            {allLinks.length > 0 && (
               <div className="space-y-1">
-                {processedAlert.links.map((link, index) => (
+                {allLinks.map((link, index) => (
                   <a
                     key={index}
                     href={link}
@@ -56,6 +56,21 @@ const AlertCard = ({ alert }: { alert: AlertData }) => {
                 ))}
               </div>
             )}
+          </div>
+        )}
+        {!instructions && allLinks.length > 0 && (
+          <div className="space-y-1">
+            {allLinks.map((link, index) => (
+              <a
+                key={index}
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-primary hover:text-primary/80 underline break-words"
+              >
+                {link}
+              </a>
+            ))}
           </div>
         )}
         <div className="text-muted-foreground">
