@@ -59,8 +59,8 @@ const getSevereAlertLinks = (alerts: AlertData[]) => {
     }
   });
   
-  // Remove duplicates
-  return [...new Set(allLinks)];
+  // Remove duplicates and limit to 2
+  return [...new Set(allLinks)].slice(0, 2);
 };
 
 const ZipResultsPage = () => {

@@ -34,7 +34,7 @@ const AlertCard = ({ alert }: { alert: AlertData }) => {
       </CardHeader>
       <CardContent className="space-y-2 text-sm">
         {instructions && (
-          <p className="leading-relaxed">{instructions}</p>
+          <p className="leading-relaxed line-clamp-3">{instructions}</p>
         )}
         <div className="text-muted-foreground">
           {effective && <span>Effective: {new Date(effective).toLocaleString()}</span>}
