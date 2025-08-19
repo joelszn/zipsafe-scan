@@ -8,6 +8,7 @@ import AlertCard, { AlertData } from "@/components/ui/AlertCard";
 import RiskBar, { RiskItem } from "@/components/ui/RiskBar";
 import FloodLikelihoodBadge from "@/components/ui/FloodLikelihoodBadge";
 import PrepLinks from "@/components/ui/PrepLinks";
+import OngoingEventSection from "@/components/ui/OngoingEventSection";
 import ShareButton from "@/components/ui/ShareButton";
 import ZipSearchForm from "@/components/ui/ZipSearchForm";
 import { getCoordsForZip, isValidZip } from "@/lib/geo";
@@ -321,6 +322,15 @@ const ZipResultsPage = () => {
         </section>
         
         <Container className="py-8 space-y-10">
+          {/* Ongoing Severe Event Section */}
+          {coords && alerts && (
+            <OngoingEventSection 
+              zipCode={zip}
+              location={`${coords.city}, ${coords.state}`}
+              alerts={alerts}
+            />
+          )}
+          
           <section>
             <h2 className="text-2xl font-semibold mb-1">Live Weather Alerts</h2>
             <p className="text-sm text-muted-foreground mb-4">Official alerts from NOAA NWS</p>
