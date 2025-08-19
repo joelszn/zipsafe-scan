@@ -7,6 +7,7 @@ export interface AlertData {
   effective?: string | null;
   expires?: string | null;
   instructions?: string | null;
+  description?: string | null;
   source?: string;
 }
 
@@ -19,7 +20,7 @@ function severityToVariant(sev: string): "destructive" | "warning" | "info" | "s
 }
 
 const AlertCard = ({ alert }: { alert: AlertData }) => {
-  const { title, severity, effective, expires, instructions, source } = alert;
+  const { title, severity, effective, expires, instructions, description, source } = alert;
   const showSeverityBadge = severity === 'Severe' || severity === 'Extreme' || severity === 'Moderate';
   
   return (
@@ -31,7 +32,9 @@ const AlertCard = ({ alert }: { alert: AlertData }) => {
         )}
       </CardHeader>
       <CardContent className="space-y-2 text-sm">
-        {instructions && <p className="leading-relaxed">{instructions}</p>}
+        {(instructions || description) && (
+          <p className="leading-relaxed">{instructions || description}</p>
+        )}
         <div className="text-muted-foreground">
           {effective && <span>Effective: {new Date(effective).toLocaleString()}</span>}
           {expires && <span className="ml-3">Expires: {new Date(expires).toLocaleString()}</span>}

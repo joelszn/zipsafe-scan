@@ -90,6 +90,7 @@ const ZipResultsPage = () => {
           expires: f?.properties?.expires,
           headline: f?.properties?.headline,
           instructions: f?.properties?.instruction,
+          description: f?.properties?.description,
           source: 'NOAA NWS'
         })) as AlertData[];
         setAlerts(al);
