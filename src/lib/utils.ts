@@ -13,8 +13,8 @@ export interface ProcessedAlert {
 export function processAlertDescription(description: string): ProcessedAlert {
   if (!description) return { text: "", links: [] };
   
-  // Extract URLs from description
-  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  // Enhanced URL extraction for better link detection
+  const urlRegex = /(https?:\/\/[^\s\)]+)/g;
   const links = description.match(urlRegex) || [];
   
   // Remove URLs from text for processing
@@ -55,7 +55,7 @@ export function processAlertDescription(description: string): ProcessedAlert {
     });
     
     // Prefer sentences with reasonable length
-    if (sentence.length > 20 && sentence.length < 200) score += 1;
+    if (sentence.length > 20 && sentence.length < 150) score += 1;
     
     return { sentence, score };
   });
@@ -66,21 +66,31 @@ export function processAlertDescription(description: string): ProcessedAlert {
     .sort((a, b) => b.score - a.score)
     .map(item => item.sentence);
   
-  // Select best 1-2 sentences for summary
+  // Select best sentences for 2-line max summary
   const selectedSentences = validSentences.length > 0 ? validSentences : sentences;
-  let summary = selectedSentences.slice(0, 2).join('. ');
+  
+  // Build summary with 2-line constraint (approximately 160 characters max)
+  let summary = "";
+  let charCount = 0;
+  const maxChars = 160;
+  
+  for (const sentence of selectedSentences.slice(0, 2)) {
+    const proposedSummary = summary ? `${summary} ${sentence}` : sentence;
+    if (proposedSummary.length <= maxChars) {
+      summary = proposedSummary;
+      charCount = summary.length;
+    } else {
+      // If adding this sentence exceeds limit, try just the first sentence if we have none
+      if (!summary && sentence.length <= maxChars) {
+        summary = sentence;
+      }
+      break;
+    }
+  }
   
   // Ensure proper sentence ending
   if (summary && !summary.match(/[.!]$/)) {
     summary += '.';
-  }
-  
-  // Keep summary concise but complete
-  if (summary.length > 200) {
-    summary = selectedSentences[0];
-    if (summary && !summary.match(/[.!]$/)) {
-      summary += '.';
-    }
   }
   
   return { 
