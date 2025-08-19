@@ -86,6 +86,7 @@ const ZipResultsPage = () => {
         const al = (data?.features || []).map((f:any)=>({
           title: f?.properties?.headline || 'Weather Alert',
           severity: f?.properties?.severity || 'Unknown',
+          event: f?.properties?.event || null,
           effective: f?.properties?.effective,
           expires: f?.properties?.expires,
           headline: f?.properties?.headline,
