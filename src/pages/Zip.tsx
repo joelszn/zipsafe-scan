@@ -8,7 +8,7 @@ import AlertCard, { AlertData } from "@/components/ui/AlertCard";
 import RiskBar, { RiskItem } from "@/components/ui/RiskBar";
 import FloodLikelihoodBadge from "@/components/ui/FloodLikelihoodBadge";
 import PrepLinks from "@/components/ui/PrepLinks";
-import OngoingEventSection from "@/components/ui/OngoingEventSection";
+import { processAlertDescription } from "@/lib/utils";
 import ShareButton from "@/components/ui/ShareButton";
 import ZipSearchForm from "@/components/ui/ZipSearchForm";
 import { getCoordsForZip, isValidZip } from "@/lib/geo";
@@ -26,6 +26,42 @@ interface FloodApiResult {
 }
 
 interface QuakeItem { magnitude: number | null; timeISO: string | null; place: string; url: string; }
+
+// Helper functions for severe alerts
+const getSevereAlerts = (alerts: AlertData[]) => {
+  const now = new Date();
+  const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+  
+  return alerts.filter(alert => {
+    const severity = (alert.severity || '').toLowerCase();
+    const isSevereOrExtreme = severity === 'severe' || severity === 'extreme';
+    
+    if (!isSevereOrExtreme) return false;
+    
+    // Check if alert is within 24 hours
+    if (alert.effective) {
+      const effectiveDate = new Date(alert.effective);
+      return effectiveDate >= twentyFourHoursAgo;
+    }
+    
+    return true; // Include if no effective date (assume recent)
+  });
+};
+
+const getSevereAlertLinks = (alerts: AlertData[]) => {
+  const severeAlerts = getSevereAlerts(alerts);
+  const allLinks: string[] = [];
+  
+  severeAlerts.forEach(alert => {
+    if (alert.description) {
+      const { links } = processAlertDescription(alert.description);
+      allLinks.push(...links);
+    }
+  });
+  
+  // Remove duplicates
+  return [...new Set(allLinks)];
+};
 
 const ZipResultsPage = () => {
   const { zip = '' } = useParams();
@@ -303,10 +339,20 @@ const ZipResultsPage = () => {
       <Header />
       <main>
         {/* ZIP Code and Location Header */}
-        <section className="bg-gradient-to-r from-primary/5 to-primary-glow/5 border-b">
+        <section className={`bg-gradient-to-r border-b ${
+          coords && alerts && getSevereAlerts(alerts).length > 0 
+            ? 'from-destructive/10 to-destructive/20 border-destructive/30' 
+            : 'from-primary/5 to-primary-glow/5'
+        }`}>
           <Container className="py-6">
             <div className="text-center">
-              <h1 className="text-4xl font-bold mb-2">ZIP {zip}</h1>
+              <h1 className={`text-4xl font-bold mb-2 ${
+                coords && alerts && getSevereAlerts(alerts).length > 0 
+                  ? 'text-destructive' 
+                  : ''
+              }`}>
+                ZIP {zip}{coords && alerts && getSevereAlerts(alerts).length > 0 && ' - Ongoing Severe Weather Event'}
+              </h1>
               {coords && (
                 <p className="text-xl text-muted-foreground">
                   {coords.city}, {coords.state}
@@ -317,19 +363,27 @@ const ZipResultsPage = () => {
                   <LoadingSkeleton className="h-6 w-48" showText text="Getting location..." />
                 </div>
               )}
+              {/* Show links for severe alerts */}
+              {coords && alerts && getSevereAlerts(alerts).length > 0 && (
+                <div className="mt-4 space-y-1">
+                  {getSevereAlertLinks(alerts).map((link, index) => (
+                    <a
+                      key={index}
+                      href={link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block text-primary hover:text-primary/80 underline break-words text-sm"
+                    >
+                      {link}
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
           </Container>
         </section>
         
         <Container className="py-8 space-y-10">
-          {/* Ongoing Severe Event Section */}
-          {coords && alerts && (
-            <OngoingEventSection 
-              zipCode={zip}
-              location={`${coords.city}, ${coords.state}`}
-              alerts={alerts}
-            />
-          )}
           
           <section>
             <h2 className="text-2xl font-semibold mb-1">Live Weather Alerts</h2>
