@@ -13,9 +13,17 @@ export interface ProcessedAlert {
 export function processAlertDescription(description: string): ProcessedAlert {
   if (!description) return { text: "", links: [] };
   
-  // Enhanced URL extraction for better link detection
-  const urlRegex = /(https?:\/\/[^\s\)]+)/g;
-  const links = description.match(urlRegex) || [];
+  // Enhanced URL extraction for comprehensive link detection
+  const urlRegex = /(https?:\/\/[^\s\)\]\,\;]+)|www\.[^\s\)\]\,\;]+/gi;
+  const matches = description.match(urlRegex) || [];
+  
+  // Add https:// to www links that don't have protocol
+  const links: string[] = matches.map(link => {
+    if (link.toLowerCase().startsWith('www.') && !link.toLowerCase().startsWith('http')) {
+      return 'https://' + link;
+    }
+    return link;
+  });
   
   // Remove URLs from text for processing
   const textWithoutUrls = description.replace(urlRegex, '').trim();
