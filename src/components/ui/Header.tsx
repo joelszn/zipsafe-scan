@@ -106,28 +106,32 @@ const Header = () => {
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div className="md:hidden border-t bg-background/95 backdrop-blur">
-          <Container className="py-4">
-            <nav className="flex flex-col gap-4">
+          <Container className="py-6">
+            <nav className="flex flex-col items-center gap-4">
               <Link 
                 to="/methodology" 
-                className="text-sm hover:underline py-2"
+                className="text-sm hover:underline py-3 text-center"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Methodology
               </Link>
+              <div className="w-full border-t border-border/50" />
+              
               <Link 
                 to="/prep" 
-                className="text-sm hover:underline py-2"
+                className="text-sm hover:underline py-3 text-center"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Preparation
               </Link>
+              <div className="w-full border-t border-border/50" />
+              
               <Dialog open={isOpen} onOpenChange={setIsOpen}>
                 <DialogTrigger asChild>
                   <Button 
-                    variant="outline" 
+                    variant="default" 
                     size="sm" 
-                    className="font-medium self-start"
+                    className="font-medium py-3 px-6"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Feedback
