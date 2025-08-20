@@ -16,7 +16,19 @@ const ResultsNav = ({ zipCode, hasAlerts, hasEarthquakes, hasRisks, hasFlood }: 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      // Calculate offset for sticky headers (main header + results nav + padding)
+      const headerHeight = 56; // h-14 = 56px
+      const navHeight = 70; // approximate results nav height
+      const padding = 20; // extra breathing room
+      const offset = headerHeight + navHeight + padding;
+      
+      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+      const offsetPosition = elementPosition - offset;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
       setActiveSection(sectionId);
     }
   };
