@@ -45,7 +45,7 @@ const ResultsNav = ({ zipCode, hasAlerts, hasEarthquakes, hasRisks, hasFlood }: 
       { rootMargin: "-20% 0px -80% 0px" }
     );
 
-    const sections = ['weather-alerts', 'earthquakes', 'climate-risks', 'flood-insurance', 'preparation'];
+    const sections = ['weather-alerts', 'earthquakes', 'climate-risks', 'flood-insurance'];
     sections.forEach((id) => {
       const element = document.getElementById(id);
       if (element) observer.observe(element);
@@ -103,15 +103,6 @@ const ResultsNav = ({ zipCode, hasAlerts, hasEarthquakes, hasRisks, hasFlood }: 
                 Flood Insurance
               </Button>
             )}
-            <Button
-              variant={activeSection === 'preparation' ? "secondary" : "outline"}
-              size="sm"
-              onClick={() => scrollToSection('preparation')}
-              className="text-xs"
-              aria-pressed={activeSection === 'preparation'}
-            >
-              Preparation
-            </Button>
           </div>
           <div className="flex-shrink-0">
             <ZipSearchForm />

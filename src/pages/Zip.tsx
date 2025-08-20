@@ -478,11 +478,6 @@ const ZipResultsPage = () => {
             {flood && <FloodLikelihoodBadge data={{ likelihood: flood.likelihood, rationale: flood.rationale, disclaimer: flood.disclaimer }} />}
           </section>
 
-          <section id="preparation">
-            <h2 className="text-2xl font-semibold mb-1">Preparation</h2>
-            <PrepLinks />
-          </section>
-
           <section className="flex items-center gap-3">
             <ShareButton title={`RiskByZip for ZIP ${zip}`} text={coords ? `${coords.city || ''} ${coords.state || ''}`.trim() : undefined} />
             <ZipSearchForm initialZip={zip} ctaLabel="Check another ZIP" />
