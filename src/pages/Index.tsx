@@ -32,12 +32,6 @@ const Index = () => {
             </div>
           </Container>
         </section>
-        <section>
-          <Container className="py-10">
-            <h2 className="sr-only">Preparation links</h2>
-            <PrepLinks />
-          </Container>
-        </section>
       </main>
       <Footer />
     </>
