@@ -1,6 +1,6 @@
-import { Badge } from "./badge";
 import { Card, CardContent, CardHeader, CardTitle } from "./card";
 import { processAlertDescription, ProcessedAlert } from "@/lib/utils";
+import SeverityBadge from "./SeverityBadge";
 
 export interface AlertData {
   title: string;
@@ -12,13 +12,6 @@ export interface AlertData {
   source?: string;
 }
 
-function severityToVariant(sev: string): "destructive" | "warning" | "info" | "secondary" {
-  const s = (sev || '').toLowerCase();
-  if (s === 'extreme' || s === 'severe') return 'destructive';
-  if (s === 'moderate') return 'warning';
-  if (s === 'minor' || s === 'unknown') return 'info';
-  return 'secondary';
-}
 
 const AlertCard = ({ alert }: { alert: AlertData }) => {
   const { title, severity, effective, expires, instructions, description, source } = alert;
@@ -29,7 +22,7 @@ const AlertCard = ({ alert }: { alert: AlertData }) => {
       <CardHeader className="flex flex-row items-start justify-between gap-3">
         <CardTitle className="text-base leading-snug flex-1">{title}</CardTitle>
         {showSeverityBadge && (
-          <Badge variant={severityToVariant(severity)}>{severity}</Badge>
+          <SeverityBadge severity={severity} />
         )}
       </CardHeader>
       <CardContent className="space-y-2 text-sm">
