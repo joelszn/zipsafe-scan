@@ -38,12 +38,14 @@ const SeverityBadge = ({ severity }: SeverityBadgeProps) => {
   const config = getSeverityConfig(severity);
   
   return (
-    <Badge variant={config.variant} className="flex flex-col items-center text-center leading-tight py-1.5 px-3 min-h-[2.5rem]">
-      <span className="font-semibold text-xs">{config.label}</span>
+    <div className="flex flex-col items-center text-center">
+      <Badge variant={config.variant} className="font-semibold">
+        {config.label}
+      </Badge>
       {config.action && (
-        <span className="text-[10px] opacity-90 mt-0.5">{config.action}</span>
+        <span className="text-[10px] text-muted-foreground mt-1 leading-tight">{config.action}</span>
       )}
-    </Badge>
+    </div>
   );
 };
 
