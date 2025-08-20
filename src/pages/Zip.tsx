@@ -13,6 +13,7 @@ import PrepLinks from "@/components/ui/PrepLinks";
 import { processAlertDescription } from "@/lib/utils";
 import ShareButton from "@/components/ui/ShareButton";
 import ZipSearchForm from "@/components/ui/ZipSearchForm";
+import BackToTop from "@/components/ui/BackToTop";
 import { getCoordsForZip, isValidZip } from "@/lib/geo";
 import { getFallbackRisks } from "@/lib/fallbackRisks";
 import { getCached, setCached } from "@/lib/cache";
@@ -489,6 +490,7 @@ const ZipResultsPage = () => {
         </Container>
       </main>
       <Footer />
+      <BackToTop />
     </>
   );
 };

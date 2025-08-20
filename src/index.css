@@ -151,6 +151,29 @@ All colors MUST be HSL.
   html {
     scroll-behavior: smooth;
   }
+
+  /* Enhanced focus indicators for accessibility */
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  a:focus-visible,
+  [tabindex]:focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  /* High contrast mode improvements */
+  @media (prefers-contrast: high) {
+    :root {
+      --muted-foreground: 215.4 16.3% 35%;
+      --border: 214.3 31.8% 70%;
+    }
+    
+    .dark {
+      --muted-foreground: 215 20.2% 75%;
+      --border: 217.2 32.6% 35%;
+    }
+  }
 }
 
 @layer utilities {
