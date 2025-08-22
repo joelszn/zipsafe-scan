@@ -34,7 +34,10 @@ const Header = () => {
     <header className="sticky top-0 z-30 backdrop-blur supports-[backdrop-filter]:bg-background/70 border-b">
       <Container className="flex h-14 items-center justify-between">
         <Link to="/" className="flex items-center gap-2" aria-label="RiskByZip Home">
-          <img src="/lovable-uploads/bd414dec-2211-477a-9f72-d9d4d3b7d4b0.png" alt="RiskByZip logo" className="h-8 w-8" />
+          <picture>
+            <source srcSet="/lovable-uploads/bd414dec-2211-477a-9f72-d9d4d3b7d4b0.webp" type="image/webp" />
+            <img src="/lovable-uploads/bd414dec-2211-477a-9f72-d9d4d3b7d4b0.png" alt="RiskByZip logo" className="h-8 w-8" />
+          </picture>
           <span className="font-semibold">RiskByZip</span>
         </Link>
         
