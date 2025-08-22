@@ -35,8 +35,8 @@ const Header = () => {
       <Container className="flex h-14 items-center justify-between">
         <Link to="/" className="flex items-center gap-2" aria-label="RiskByZip Home">
           <picture>
-            <source srcSet="/lovable-uploads/bd414dec-2211-477a-9f72-d9d4d3b7d4b0.webp" type="image/webp" />
-            <img src="/lovable-uploads/bd414dec-2211-477a-9f72-d9d4d3b7d4b0.png" alt="RiskByZip logo" className="h-8 w-8" />
+            <source srcSet="/lovable-uploads/logo-64.webp" type="image/webp" />
+            <img src="/lovable-uploads/logo-64.png" alt="RiskByZip logo" className="h-8 w-8" />
           </picture>
           <span className="font-semibold">RiskByZip</span>
         </Link>
